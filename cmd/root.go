@@ -66,10 +66,11 @@ func init() {
 		confDir := home + sep + ".config"
 		rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", confDir+"/powertracker/config.yaml", "config file")
 
-		// Default to 7 days instead of 30 - I weekly is more useful me
-		rootCmd.PersistentFlags().IntVarP(&days, "days", "d", 7, "number of days to compute power stats for")
-		rootCmd.PersistentFlags().StringVarP(&output, "output", "o", "table", "output format (text, table, csv)")
-		rootCmd.PersistentFlags().StringVarP(&csvFile, "csv-file", "f", "results.csv", "the path of the CSV file to write to")
+		// Default to 30 days for a better monthly billing overview
+		rootCmd.PersistentFlags().IntVarP(&days, "days", "d", 30, "number of days to compute power stats for")
+		rootCmd.PersistentFlags().StringVarP(&output, "output", " "output format (text, table, csv)")
+		// Default CSV filename includes'power' prefix to make it easier to find in Downloads
+		rootCmd.PersistentFlags().StringVarP(&csvFile, "csv-file", "f", "power-results.csv", "the path of the CSV file to write to")
 		rootCmd.PersistentFlags().BoolVarP(&insecure, "insecure", "i", false, "skip TLS verification")
 	}
 }
@@ -100,8 +101,4 @@ func initConfig() {
 
 		f, err := os.Create(cfgFile)
 		if err != nil {
-			log.Fatal().Msgf("creating config file: %s", err.Error())
-		}
-		defer f.Close()
-
-		if err := viper.WriteC
+			log.Fatal().Msgf("creating config f
