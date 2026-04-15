@@ -93,6 +93,14 @@ func TestClient_Connect_ErrorStates(t *testing.T) {
 			apiKey:   "",
 			expected: "api_key is required",
 		},
+		// Personal addition: ensure whitespace-only API keys are also rejected,
+		// since strings.TrimSpace("") == "" but " " would previously slip through.
+		{
+			name:     "Whitespace-only API Key",
+			url:      "http://example.com",
+			apiKey:   "   ",
+			expected: "api_key is required",
+		},
 	}
 
 	for _, test := range tests {
