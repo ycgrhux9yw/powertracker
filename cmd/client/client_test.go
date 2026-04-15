@@ -75,7 +75,7 @@ func TestClient_Connect_ErrorStates(t *testing.T) {
 		},
 		{
 			name:     "Malformed URL",
-			url:      "htp:\\example.com",
+			url:      "htp:\\\\example.com",
 			apiKey:   "test_token",
 			expected: "dial: malformed ws or wss URL",
 		},
@@ -84,6 +84,14 @@ func TestClient_Connect_ErrorStates(t *testing.T) {
 			url:      "http://example.com",
 			apiKey:   "test_token",
 			expected: "dial: websocket: bad handshake",
+		},
+		// NOTE: adding an empty API key test case - caught a bug locally where
+		// an empty token would still attempt a connection instead of failing fast.
+		{
+			name:     "Empty API Key",
+			url:      "http://example.com",
+			apiKey:   "",
+			expected: "api_key is required",
 		},
 	}
 
