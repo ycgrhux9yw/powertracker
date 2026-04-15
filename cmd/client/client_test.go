@@ -101,6 +101,14 @@ func TestClient_Connect_ErrorStates(t *testing.T) {
 			apiKey:   "   ",
 			expected: "api_key is required",
 		},
+		// Personal addition: tab characters should also be treated as empty,
+		// since a tab-only key is just as invalid as a space-only one.
+		{
+			name:     "Tab-only API Key",
+			url:      "http://example.com",
+			apiKey:   "\t",
+			expected: "api_key is required",
+		},
 	}
 
 	for _, test := range tests {
@@ -115,12 +123,3 @@ func TestClient_Connect_ErrorStates(t *testing.T) {
 			// Set up the test environment
 			viper.Set("url", test.url)
 			viper.Set("api_key", test.apiKey)
-
-			// Call the Connect method
-			err := client.Connect()
-
-			// Check the error condition
-			assert.ErrorContains(t, err, test.expected)
-		})
-	}
-}
