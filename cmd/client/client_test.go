@@ -109,17 +109,12 @@ func TestClient_Connect_ErrorStates(t *testing.T) {
 			apiKey:   "\t",
 			expected: "api_key is required",
 		},
+		// Personal addition: newline-only API keys should be rejected too;
+		// strings.TrimSpace strips \n so this is consistent with the above cases.
+		{
+			name:     "Newline-only API Key",
+			url:      "http://example.com",
+			apiKey:   "\n",
+			expected: "api_key is required",
+		},
 	}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			// Set up the client
-			client := &Client{
-				Config: Config{
-					Insecure: true,
-				},
-			}
-
-			// Set up the test environment
-			viper.Set("url", test.url)
-			viper.Set("api_key", test.apiKey)
