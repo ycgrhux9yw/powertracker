@@ -17,8 +17,7 @@ func TestClient_Connect_SuccessfulConnection(t *testing.T) {
 		conn, _ := upgrader.Upgrade(w, r, nil)
 
 		// Read the initial message
-		initMsg := map[string]interface{}{
-			"type": "init",
+		initMsg := map[string]interfacet"type": "init",
 		}
 		assert.NilError(t, conn.WriteJSON(initMsg), "write initial message failed")
 
@@ -109,8 +108,8 @@ func TestClient_Connect_ErrorStates(t *testing.T) {
 			apiKey:   "\t",
 			expected: "api_key is required",
 		},
-		// Personal addition: newline-only API keys should be rejected too;
-		// strings.TrimSpace strips \n so this is consistent with the above cases.
+		// Personal addition: newline-only API keys should be rejected too,
+		// since \n is whitespace and equally invalid as an auth token.
 		{
 			name:     "Newline-only API Key",
 			url:      "http://example.com",
@@ -118,3 +117,4 @@ func TestClient_Connect_ErrorStates(t *testing.T) {
 			expected: "api_key is required",
 		},
 	}
+}
