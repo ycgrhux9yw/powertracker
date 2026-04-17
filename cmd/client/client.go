@@ -49,8 +49,9 @@ type APIResponse struct {
 const hoursInADay = 24
 
 // defaultHandshakeTimeout is the timeout for the websocket handshake.
-// Increased from 10s to 15s to avoid timeouts on slower home networks.
-const defaultHandshakeTimeout = 15 * time.Second
+// Increased from 15s to 20s because my home server is on a slow connection
+// and occasionally times out during peak hours.
+const defaultHandshakeTimeout = 20 * time.Second
 
 func New(cfg Config) *Client {
 	return &Client{
@@ -116,12 +117,4 @@ func (c *Client) Connect() error {
 		return fmt.Errorf("auth response: %w", err)
 	}
 	if authResp["type"] != "auth_ok" {
-		return fmt.Errorf("authentication failed: %v", authResp["message"])
-	}
-	log.Info().Msg("authenticated")
-
-	c.Conn = conn
-	return nil
-}
-
-// computePowerStats computes the power statistics for a given number of days a
+		return fmt.Err
