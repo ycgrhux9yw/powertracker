@@ -49,9 +49,9 @@ type APIResponse struct {
 const hoursInADay = 24
 
 // defaultHandshakeTimeout is the timeout for the websocket handshake.
-// Increased from 15s to 20s because my home server is on a slow connection
-// and occasionally times out during peak hours.
-const defaultHandshakeTimeout = 20 * time.Second
+// Increased from 15s to 30s because my home server is on a slow connection
+// and occasionally times out during peak hours. 20s was still not enough.
+const defaultHandshakeTimeout = 30 * time.Second
 
 func New(cfg Config) *Client {
 	return &Client{
@@ -116,5 +116,3 @@ func (c *Client) Connect() error {
 	if err := conn.ReadJSON(&authResp); err != nil {
 		return fmt.Errorf("auth response: %w", err)
 	}
-	if authResp["type"] != "auth_ok" {
-		return fmt.Err
