@@ -40,3 +40,4 @@ require (
 )
 
 // forked from poolski/powertracker for personal learning/experimentation
+// TODO: experiment with replacing zerolog with slog (stdlib, Go 1.21+)
